@@ -1,7 +1,7 @@
 package com.example.instagramclone.domain.post.dto.response;
 
+import com.example.instagramclone.domain.like.dto.response.LikeStatusResponse;
 import com.example.instagramclone.domain.post.entity.Post;
-import com.example.instagramclone.domain.post.entity.PostImage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -39,16 +39,21 @@ public class PostResponse {
     @JsonProperty("feed_id")
     private Long id;
     private String content;
-    private String writer;
+    private String username;
+    private String profileImageUrl;
     private List<PostImageResponse> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    // 좋아요 상태데이터
+    private LikeStatusResponse likeStatus;
 
-    public static PostResponse from(Post feed) {
+    public static PostResponse of(Post feed, LikeStatusResponse likeStatus) {
         return PostResponse.builder()
                 .id(feed.getId())
-                .writer(feed.getWriter())
                 .content(feed.getContent())
+                .username(feed.getMember().getUsername())
+                .profileImageUrl(feed.getMember().getProfileImageUrl())
+                .likeStatus(likeStatus)
                 .images(
                         feed.getImages()
                                 .stream()

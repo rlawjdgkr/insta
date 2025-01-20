@@ -1,6 +1,8 @@
 
 import CarouselManager from "../ui/CarouselManager.js";
 import HashtagSearch from "../ui/HashtagSearch.js";
+import {fetchWithAuth} from "../util/api.js";
+import {getCurrentUser} from "../util/auth.js";
 
 // step 모듈내에서 전역관리
 let currentStep = 1;
@@ -64,21 +66,25 @@ async function fetchFeed() {
   })); // JSON 넣기
 
   // 이미지 전송
-  selectedFiles.forEach(file => { 
+  selectedFiles.forEach(file => {
     formData.append('images', file);
   });
 
   setLoading(true); // 로딩 상태 활성화
 
-  setTimeout(async () => { 
-    // 서버에 POST요청 전송
-    const response = await fetch('/api/posts', {
+  setTimeout(async () => {
+    const token = localStorage.getItem('accessToken')
+    // 서버에 POST요청 토큰을 포함시켜서 전송
+    const response = await fetchWithAuth('/api/posts', {
       method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
       body: formData
     });
-  
+
     const data = await response.json();
-    
+
     if (response.ok) {
       window.location.reload(); // 피드 새로고침
     } else {
@@ -86,7 +92,7 @@ async function fetchFeed() {
       alert(data.message);
     }
     setLoading(false);
-    
+
   }, 1500);
 
 }
@@ -217,13 +223,24 @@ function setUpFileUploadEvents() {
 }
 
 // 피드 생성 모달 관련 이벤트 함수
-function setUpModalEvents() {
+ function setUpModalEvents() {
 
   const { $closeBtn, $backdrop, $backStepBtn, $nextStepBtn, $nestedModal } = elements;
 
+  const renderUserInfo = async () =>{
+    const {username, profileImageUrl}  = await getCurrentUser();
+    const $img = document.querySelector('.write-area .profile-image img');
+    $img.src =profileImageUrl ?? '/images/default-profile.svg';
+    $img.alt = `${username}님의 프로필 사진`;
+
+    document.querySelector('.write-area .username').textContent = username;
+  }
   // 모달 열기 함수
   const openModal = (e) => {
     e.preventDefault();
+    //로그인한 사용자 이름 렌더링
+    renderUserInfo();
+
     // 모달 열기
     $modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';  // 배경 바디 스크롤 방지
@@ -289,12 +306,12 @@ function setupNestedModalEvents() {
   const { $nestedModal, $deleteBtn, $cancelBtn } = elements;
 
   // 취소처리 - 중첩모달만 닫기
-  $cancelBtn.addEventListener('click', () => { 
+  $cancelBtn.addEventListener('click', () => {
     $nestedModal.style.display = 'none';
   });
 
   // 삭제처리 - 모든 모달을 닫고 초기상태로 귀환
-  $deleteBtn.addEventListener('click', () => { 
+  $deleteBtn.addEventListener('click', () => {
     // 새로고침시 모든것이 초기로 돌아감
     window.location.reload();
   });

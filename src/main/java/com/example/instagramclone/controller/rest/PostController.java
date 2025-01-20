@@ -1,8 +1,8 @@
 package com.example.instagramclone.controller.rest;
 
 import com.example.instagramclone.domain.post.dto.request.PostCreate;
+import com.example.instagramclone.domain.post.dto.response.PostDetailResponse;
 import com.example.instagramclone.domain.post.dto.response.PostResponse;
-import com.example.instagramclone.domain.post.entity.Post;
 import com.example.instagramclone.exception.ErrorCode;
 import com.example.instagramclone.exception.PostException;
 import com.example.instagramclone.service.PostService;
@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +27,13 @@ public class PostController {
 
     // 피드 목록 조회 요청
     @GetMapping
-    public ResponseEntity<?> getFeeds() {
-        List<PostResponse> allFeeds = postService.findAllFeeds();
+    public ResponseEntity<?> getFeeds(
+            @AuthenticationPrincipal String username
+    ) {
+
+        log.info("피드에서 인증된 사용자명: {}", username);
+
+        List<PostResponse> allFeeds = postService.findAllFeeds(username);
 
         return ResponseEntity
                 .ok()
@@ -41,6 +47,7 @@ public class PostController {
             @RequestPart("feed") @Valid PostCreate postCreate
             // 이미지 파일 목록 multipart-file
             , @RequestPart("images") List<MultipartFile> images
+            , @AuthenticationPrincipal String username // 인증된 사용자 이름
     ) {
 
         // 파일 업로드 개수 검증
@@ -56,7 +63,7 @@ public class PostController {
         log.info("feed create request: POST - {}", postCreate);
 
         // 이미지와 JSON을 서비스클래스로 전송
-        Long postId = postService.createFeed(postCreate);
+        Long postId = postService.createFeed(postCreate, username);
 
         // 응답 메시지 JSON 생성 { "id": 23, "message": "save success" }
         Map<String, Object> response = Map.of(
@@ -68,4 +75,17 @@ public class PostController {
                 .ok()
                 .body(response);
     }
+
+    // 피드 상세보기 단일 조회 API
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getDetail(
+            @PathVariable Long postId
+            , @AuthenticationPrincipal String username
+    ) {
+
+        PostDetailResponse postDetails = postService.getPostDetails(postId, username);
+
+        return ResponseEntity.ok().body(postDetails);
+    }
+
 }

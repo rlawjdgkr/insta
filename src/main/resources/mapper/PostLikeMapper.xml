@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.instagramclone.repository.PostLikeRepository">
+
+    <!-- 좋아요 추가 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post_likes (post_id, member_id)
+        VALUES (#{postId}, #{memberId})
+    </insert>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="delete">
+        DELETE
+        FROM post_likes
+        WHERE post_id = #{postId}
+          AND member_id = #{memberId}
+    </delete>
+
+    <!-- 좋아요 여부 확인 -->
+    <select id="findByPostIdAndMemberId" resultType="PostLike">
+        SELECT *
+        FROM post_likes
+        WHERE post_id = #{postId}
+          AND member_id = #{memberId}
+    </select>
+
+    <select id="countByPostId" resultType="long">
+        SELECT COUNT(*)
+        FROM post_likes
+        WHERE post_id = #{postId}
+    </select>
+
+
+    <select id="findProfilePosts" resultType="ProfilePostResponse">
+        SELECT
+            p.id,
+            pi.image_url as mainThumbnail,
+            NVL(l.likeCount, 0) AS likeCount
+        FROM posts p
+                 INNER JOIN
+             (
+                 SELECT post_id, image_url
+                 FROM post_images
+                 WHERE image_order = 1
+             ) pi
+             ON p.id = pi.post_id
+                 LEFT JOIN (
+            SELECT post_id, COUNT(*) AS likeCount
+            FROM post_likes
+            GROUP BY post_id
+        ) l
+                           ON p.id = l.post_id
+        WHERE p.member_id = #{memberId}
+        ORDER BY p.created_at DESC
+    </select>
+
+</mapper>
