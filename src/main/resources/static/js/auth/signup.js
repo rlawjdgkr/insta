@@ -51,7 +51,7 @@ function initSignUp() {
   const debouncedValidate = debounce(async ($input) => {
     // === bug fix part ===
     /*
-      원인: validateField는 비동기(async)로 작동함
+      원인: validateField는 비동기(async)로 작동함 
             따라서 await을 걸지 않으면 아래쪽 함수 updateSubmitButton과 동시에 작동되어
             버그가 발생함
       해결 방안: validateField에 await을 걸어 실행이 끝날때까지 updateSubmitButton이
@@ -69,7 +69,7 @@ function initSignUp() {
     debouncedValidate($input);
   };
 
-  const handleBlur = $input => {
+  const handleBlur = $input => { 
     const fieldName = $input.name;
     const currentValue = $input.value.trim();
 
@@ -121,7 +121,7 @@ async function validateField($input) {
   const inputValue = $input.value.trim();
   // input의 부모 가져오기
   const $formField = $input.closest('.form-field');
-
+  
   // 1. 빈 값 체크
   if (!inputValue) {
     isValid = false;
@@ -136,7 +136,7 @@ async function validateField($input) {
       isValid = validatePassword($formField, inputValue);
     } else if (fieldName === 'username') {
       isValid = await validateUsername($formField, inputValue);
-    }
+    } 
   }
 
   // 각 input에 검사결과를 저장
@@ -170,7 +170,7 @@ function removeErrorMessage($formField) {
 async function fetchToCheckDuplicate(type, value) {
   const response = await fetch(`/api/auth/check-duplicate?type=${type}&value=${value}`);
   return await response.json();
-
+  
 }
 
 // 이메일 또는 전화번호를 상세검증
@@ -225,16 +225,16 @@ function validatePassword($formField, inputValue) {
       return false;
     case 'medium': // 에러는 아님
       showPasswordFeedback(
-          $formField,
-          ValidationRules.password.messages.medium,
-          'warning'
+        $formField,
+        ValidationRules.password.messages.medium,
+        'warning'
       );
       return true;
     case 'strong': // 에러는 아님
       showPasswordFeedback(
-          $formField,
-          ValidationRules.password.messages.strong,
-          'success'
+        $formField,
+        ValidationRules.password.messages.strong,
+        'success'
       );
       return true;
   }

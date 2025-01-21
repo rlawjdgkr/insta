@@ -1,4 +1,4 @@
-import {fetchWithAuth} from "../util/api.js";
+import { fetchWithAuth } from "../util/api.js";
 
 class HashtagSearch {
   constructor($textarea) {

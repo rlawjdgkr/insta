@@ -66,12 +66,14 @@
       <i class="fa-solid fa-at"></i>
       <span class="menu-text">Threads</span>
     </a>
+
+    <!-- 더보기 -->
     <div class="more-menu-container" style="position: relative;">
       <button class="menu-item" id="moreButton">
         <i class="fa-solid fa-bars"></i>
         <span class="menu-text">더 보기</span>
       </button>
-<%--  더보기--%>
+
       <div class="more-menu" id="moreMenu">
         <button class="menu-item">
           <i class="fa-solid fa-gear"></i>
@@ -103,6 +105,6 @@
         </button>
       </div>
     </div>
-
+    
   </div>
 </nav>

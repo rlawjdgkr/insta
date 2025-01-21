@@ -1,5 +1,6 @@
 package com.example.instagramclone.service;
 
+import com.example.instagramclone.domain.comment.dto.response.CommentResponse;
 import com.example.instagramclone.domain.comment.entity.Comment;
 import com.example.instagramclone.domain.member.entity.Member;
 import com.example.instagramclone.repository.CommentRepository;
@@ -15,7 +16,7 @@ import java.util.Map;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-public class    CommentService {
+public class CommentService {
 
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
@@ -40,7 +41,7 @@ public class    CommentService {
         Comment foundComment = commentRepository.findById(newComment.getId()).orElseThrow();
 
         return Map.of(
-                "comment", newComment,
+            "comment", CommentResponse.from(foundComment),
                 "commentCount", commentRepository.countByPostId(postId)
         );
     }

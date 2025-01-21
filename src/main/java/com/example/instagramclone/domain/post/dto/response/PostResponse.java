@@ -47,13 +47,16 @@ public class PostResponse {
     // 좋아요 상태데이터
     private LikeStatusResponse likeStatus;
 
-    public static PostResponse of(Post feed, LikeStatusResponse likeStatus) {
+    private long commentCount;
+
+    public static PostResponse of(Post feed, LikeStatusResponse likeStatus , long commentCount) {
         return PostResponse.builder()
                 .id(feed.getId())
                 .content(feed.getContent())
                 .username(feed.getMember().getUsername())
                 .profileImageUrl(feed.getMember().getProfileImageUrl())
                 .likeStatus(likeStatus)
+                .commentCount(commentCount)
                 .images(
                         feed.getImages()
                                 .stream()

@@ -107,7 +107,8 @@ button.menu-item {
     font-family: inherit;
     text-align: left;
 }
-/* sidebar.css에 추가 */
+
+/* 로그아웃 관련 */
 .more-menu {
     position: absolute;
     bottom: 100%;
@@ -153,6 +154,7 @@ button.menu-item {
 .more-menu .menu-item:active {
     background-color: #f0f0f0;
 }
+
 
 /* Responsive Styles */
 @media (max-width: 1263px) {

@@ -108,13 +108,13 @@ class PostRepositoryTest {
     @DisplayName("단일 피드를 조회하면 피드의 내용, 작성자정보, 피드이미지들이 조회된다.")
     void detailFeedTest() {
         //given
-        Long postId = 70L;
+        Long postId = 61L;
         //when
         Post post = postRepository.findPostDetailById(postId).orElseThrow();
 
         //then
         System.out.println("post = " + post);
     }
-
+    
 
 }
