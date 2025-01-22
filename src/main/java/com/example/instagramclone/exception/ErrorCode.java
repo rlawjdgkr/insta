@@ -15,9 +15,6 @@ public enum ErrorCode {
     // 피드 관련 오류
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "피드를 찾을 수 없습니다."),
 
-
-    SELF_FOLLOW(HttpStatus.BAD_REQUEST, "자기 자신을 팔로우 할 수 없습니다."),
-
     // File 관련 오류
     FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다."),
     INVALID_FILE_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 형식입니다."),
@@ -37,6 +34,8 @@ public enum ErrorCode {
     // 인증 관련
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "잘못된 비밀번호입니다."),
 
+    // 팔로우 관련
+    SELF_FOLLOW(HttpStatus.BAD_REQUEST, "자기 자신을 팔로우 할 수 없습니다."),
     ;
 
     private final HttpStatus status;

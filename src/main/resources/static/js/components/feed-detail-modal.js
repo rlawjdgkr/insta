@@ -76,7 +76,7 @@ function renderModalContent({ postId, content, createdAt, user, images, likeStat
   });
 
   $modal.querySelector('.post-caption').innerHTML =
-      convertHashtagsToLinks(content);
+    convertHashtagsToLinks(content);
   $modal.querySelector('.post-time').textContent = formatDate(createdAt);
 
   // 이미지 캐러셀 렌더링
@@ -86,15 +86,15 @@ function renderModalContent({ postId, content, createdAt, user, images, likeStat
                             <div class="carousel-container">
                               <div class="carousel-track">
                                 ${images
-      .map(
-          (image) =>
-              `<img src="${image.imageUrl}" alt="피드 이미지 ${image.imageOrder}">`
-      )
-      .join('')}
+                                  .map(
+                                    (image) =>
+                                      `<img src="${image.imageUrl}" alt="피드 이미지 ${image.imageOrder}">`
+                                  )
+                                  .join('')}
                               </div>
                               ${
-      images.length > 1
-          ? `
+                                images.length > 1
+                                  ? `
                                       <button class="carousel-prev">
                                         <i class="fa-solid fa-chevron-left"></i>
                                       </button>
@@ -103,24 +103,24 @@ function renderModalContent({ postId, content, createdAt, user, images, likeStat
                                       </button>
                                       <div class="carousel-indicators">
                                         ${images
-              .map(
-                  (_, index) =>
-                      `<span class="indicator ${
-                          index === 0 ? 'active' : ''
-                      }"></span>`
-              )
-              .join('')}
+                                          .map(
+                                            (_, index) =>
+                                              `<span class="indicator ${
+                                                index === 0 ? 'active' : ''
+                                              }"></span>`
+                                          )
+                                          .join('')}
                                       </div>
                               `
-          : ''
-  }
+                                  : ''
+                              }
                            </div>`;
-
+  
   // 캐러셀 만들기
   if (images.length > 1) {
     const carousel
-        = new CarouselManager($carouselContainer);
-
+      = new CarouselManager($carouselContainer);
+    
     carousel.initWithImgTag([...$carouselContainer.querySelectorAll('img')]);
   }
 
@@ -141,7 +141,7 @@ function renderModalContent({ postId, content, createdAt, user, images, likeStat
 
   // 댓글 form 이벤트 처리
   createComment($modal.querySelector('.comment-form'));
-
+  
 }
 
 function findAdjacentPostIds(currentId) {
@@ -158,7 +158,7 @@ function findAdjacentPostIds(currentId) {
     prevId: prevId ? prevId : null,
     nextId: nextId ? nextId : null,
   };
-
+  
 }
 
 // 이전, 다음 피드 버튼 업데이트(조건부 렌더링, 서버에 새로운 피드 재요청) 처리
@@ -193,7 +193,7 @@ function updateFeedNavigation(currentId) {
 
 // 모달 열기
 export async function openModal(postId) {
-
+  
   // 서버에 데이터 요청
   const response = await fetchWithAuth(`/api/posts/${postId}`);
 
@@ -210,7 +210,7 @@ export async function openModal(postId) {
 
   // 이전, 다음 피드 렌더링 처리
   updateFeedNavigation(postId);
-
+  
 
   // 모달 디스플레이 변경
   $modal.style.display = 'flex';

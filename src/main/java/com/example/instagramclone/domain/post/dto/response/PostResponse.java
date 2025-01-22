@@ -46,10 +46,10 @@ public class PostResponse {
     private LocalDateTime updatedAt;
     // 좋아요 상태데이터
     private LikeStatusResponse likeStatus;
-
+    // 댓글 개수
     private long commentCount;
 
-    public static PostResponse of(Post feed, LikeStatusResponse likeStatus , long commentCount) {
+    public static PostResponse of(Post feed, LikeStatusResponse likeStatus, long commentCount) {
         return PostResponse.builder()
                 .id(feed.getId())
                 .content(feed.getContent())

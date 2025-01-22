@@ -3,7 +3,7 @@ import { fetchWithAuth } from "../util/api.js";
 // 좋아요 기능을 관리하는 클래스
 // - 토글
 // - 좋아요 상태표시( 좋아요 수, 하트색깔 )
-class PostLikeManager {
+class PostLikeManager { 
 
   // container는 index페이지에서는 피드가 컨테이너고
   // profile페이지에서는 상세모달이 컨테이너다.
@@ -20,9 +20,9 @@ class PostLikeManager {
     this.postId = container.dataset.postId;
 
     // 좋아요 토글 이벤트 바인딩
-    this.$likeButton.onclick = async (e) => {
+    this.$likeButton.onclick = async (e) => { 
       e.preventDefault();
-
+      
       // 서버에 좋아요 토글 요청 보내기
       const response = await fetchWithAuth(`/api/posts/${this.postId}/likes`, {
         method: 'POST'
@@ -66,8 +66,8 @@ class PostLikeManager {
       const $likeBtn = $feed.querySelector('.like-button');
       $likeBtn.classList.toggle('liked', liked);
       $likeBtn.querySelector('i').className = liked
-          ? 'fa-solid fa-heart'
-          : 'fa-regular fa-heart';
+        ? 'fa-solid fa-heart'
+        : 'fa-regular fa-heart';
     }
 
   }
@@ -76,7 +76,7 @@ class PostLikeManager {
   addDoubleClickLike() {
     // 캐러셀 컨테이너에 더블클릭 이벤트 바인딩
     const $carousel = this.$container.querySelector('.carousel-container');
-    $carousel.ondblclick = () => {
+    $carousel.ondblclick = () => { 
       this.$likeButton.click();
 
       // 하트 애니메이션 표시
@@ -87,7 +87,7 @@ class PostLikeManager {
       $carousel.append($heartAnimation);
 
       // 1초 후 애니메이션이 끝나면 하트 박스 삭제
-      setTimeout(() => {
+      setTimeout(() => { 
         $heartAnimation.remove();
       }, 1000);
 

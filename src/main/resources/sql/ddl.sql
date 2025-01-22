@@ -130,7 +130,6 @@ CREATE INDEX idx_comments_member_id ON comments (member_id);
 
 
 
-
 -- 팔로우 관련
 CREATE TABLE follows
 (
@@ -147,5 +146,4 @@ CREATE TABLE follows
 -- 조회 성능을 위한 인덱스
 CREATE INDEX idx_follows_follower ON follows (follower_id);
 CREATE INDEX idx_follows_following ON follows (following_id);
-
 

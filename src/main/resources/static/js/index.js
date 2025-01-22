@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMoreMenu(); // 더보기 버튼 클릭 관련
   initSideBar(); // 사이드바 관련
   initFeedDetailModal(); // 상세보기 모달 관련 이벤트
-
+  
   initStories(); // 스토리 관련 js
   initFeed(); // 피드목록 렌더링 관련 js
   initSuggestions(); // 사용자 추천 관련
